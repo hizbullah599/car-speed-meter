@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Car Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Speed lines effect -->
+    <div class="speed-lines" id="speedLines"></div>
+    
+    <!-- Theme toggle -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle Day/Night Mode">
+        <span class="sun">☀️</span>
+        <span class="moon">🌙</span>
+    </button>
+    
+    <div class="container">
+        <!-- Warning Lights -->
+        <div class="warning-lights">
+            <div class="warning-light" id="engineWarning" title="Engine Temperature High">
+                <span>🔧</span>
+            </div>
+            <div class="warning-light" id="fuelWarning" title="Low Fuel">
+                <span>⛽</span>
+            </div>
+            <div class="warning-light active" id="cruiseWarning" title="Cruise Control">
+                <span>🎯</span>
+            </div>
+        </div>
+
+        <!-- Main Gauges -->
+        <div class="gauges-container">
+            <!-- Speedometer -->
+            <div class="gauge-wrapper">
+                <div class="speedometer">
+                    <div class="speed-display">
+                        <span class="speed-value" id="speedValue">0</span>
+                        <span class="speed-unit">KM/H</span>
+                    </div>
+                    <svg class="gauge" viewBox="0 0 200 120">
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#00ff00;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#ffff00;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ff0000;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#333" stroke-width="20" stroke-linecap="round"/>
+                        <path class="gauge-progress" id="gaugeProgress" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gradient)" stroke-width="20" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+                        <line class="needle" id="needle" x1="100" y1="100" x2="100" y2="40" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="100" cy="100" r="8" fill="#fff"/>
+                    </svg>
+                    <div class="speed-markers">
+                        <span class="marker" style="left: 5%;">0</span>
+                        <span class="marker" style="left: 20%;">40</span>
+                        <span class="marker" style="left: 35%;">80</span>
+                        <span class="marker" style="left: 50%;">120</span>
+                        <span class="marker" style="left: 65%;">160</span>
+                        <span class="marker" style="left: 80%;">200</span>
+                        <span class="marker" style="right: 5%;">240</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RPM Gauge -->
+            <div class="gauge-wrapper">
+                <div class="rpm-meter">
+                    <div class="rpm-display">
+                        <span class="rpm-value" id="rpmValue">0</span>
+                        <span class="rpm-unit">RPM x1000</span>
+                    </div>
+                    <svg class="gauge" viewBox="0 0 200 120">
+                        <defs>
+                            <linearGradient id="rpmGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#00aaff;stop-opacity:1" />
+                                <stop offset="70%" style="stop-color:#ffaa00;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#ff0000;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#333" stroke-width="20" stroke-linecap="round"/>
+                        <path class="gauge-progress" id="rpmGaugeProgress" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#rpmGradient)" stroke-width="20" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+                        <line class="needle" id="rpmNeedle" x1="100" y1="100" x2="100" y2="40" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="100" cy="100" r="8" fill="#fff"/>
+                    </svg>
+                    <div class="speed-markers">
+                        <span class="marker" style="left: 5%;">0</span>
+                        <span class="marker" style="left: 25%;">2</span>
+                        <span class="marker" style="left: 45%;">4</span>
+                        <span class="marker" style="left: 65%;">6</span>
+                        <span class="marker" style="right: 5%;">8</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gear Indicator -->
+        <div class="gear-indicator">
+            <span class="gear-label">GEAR</span>
+            <span class="gear-value" id="gearValue">N</span>
+        </div>
+
+        <!-- Small Gauges Row -->
+        <div class="small-gauges">
+            <div class="small-gauge">
+                <div class="small-gauge-label">TEMP</div>
+                <div class="small-gauge-bar">
+                    <div class="small-gauge-fill" id="tempGauge"></div>
+                </div>
+                <div class="small-gauge-value" id="tempValue">90°C</div>
+            </div>
+            <div class="small-gauge">
+                <div class="small-gauge-label">FUEL</div>
+                <div class="small-gauge-bar">
+                    <div class="small-gauge-fill fuel" id="fuelGauge"></div>
+                </div>
+                <div class="small-gauge-value" id="fuelValue">100%</div>
+            </div>
+        </div>
+
+        <!-- Drive Mode Selector -->
+        <div class="drive-mode-selector">
+            <button class="mode-btn" data-mode="eco">ECO</button>
+            <button class="mode-btn active" data-mode="normal">NORMAL</button>
+            <button class="mode-btn" data-mode="sport">SPORT</button>
+        </div>
+
+        <!-- Engine Sound Selector -->
+        <div class="engine-selector">
+            <label>Engine:</label>
+            <select id="engineType">
+                <option value="v6">V6</option>
+                <option value="v8">V8</option>
+                <option value="electric">Electric</option>
+                <option value="turbo">Turbo</option>
+            </select>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn accelerate-btn" id="accelerate">Accelerate</button>
+            <button class="btn brake-btn" id="brake">Brake</button>
+            <button class="btn cruise-btn" id="cruiseControl">Cruise</button>
+            <button class="btn reset-btn" id="reset">Reset</button>
+        </div>
+
+        <!-- Trip Computer -->
+        <div class="trip-computer">
+            <div class="trip-item">
+                <span class="trip-label">Distance</span>
+                <span class="trip-value" id="distance">0.0 km</span>
+            </div>
+            <div class="trip-item">
+                <span class="trip-label">Trip Time</span>
+                <span class="trip-value" id="tripTime">00:00</span>
+            </div>
+            <div class="trip-item">
+                <span class="trip-label">Fuel Used</span>
+                <span class="trip-value" id="fuelUsed">0.0 L</span>
+            </div>
+        </div>
+        
+        <!-- Info Panel -->
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">Max Speed</span>
+                <span class="info-value" id="maxSpeed">0</span>
+                <span class="info-unit">km/h</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Avg Speed</span>
+                <span class="info-value" id="avgSpeed">0</span>
+                <span class="info-unit">km/h</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">0-100</span>
+                <span class="info-value" id="zeroToHundred">--</span>
+                <span class="info-unit">sec</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
