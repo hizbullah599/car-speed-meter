@@ -76,7 +76,7 @@ Each engine type features:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/car-speed-meter.git
+   git clone https://github.com/hizbullah599/car-speed-meter.git
    cd car-speed-meter
    ```
 
